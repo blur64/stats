@@ -1,15 +1,23 @@
 <template>
-  <div>
-    <table-page :dataset="dataset" />
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+      <the-sidebar class="col-2 border-end" />
+      <main class="col-10">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam
+        doloremque voluptas ut, rem amet ipsam in quasi aspernatur totam
+        reprehenderit. Iste, voluptatum. Impedit, molestiae excepturi!
+      </main>
+    </div>
   </div>
 </template>
 
 <script>
-import TablePage from './pages/TablePage.vue';
+// import TablePage from './pages/TablePage.vue';
+import TheSidebar from './components/TheSidebar.vue';
 
 export default {
   name: 'App',
-  components: { TablePage },
+  components: { TheSidebar },
   data() {
     return {
       dataset: [],
@@ -61,5 +69,10 @@ export default {
 
 body {
   font-family: 'Zen Maru Gothic', sans-serif;
+  height: 100vh;
+}
+
+#app {
+  height: 100%;
 }
 </style>
