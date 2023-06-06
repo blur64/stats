@@ -2,23 +2,43 @@
   <div>
     <input type="file" @input="readFile" />
     <base-table :headers="headers" :rows="rows" />
+    <vector-summary-statistics :vector="some" />
   </div>
 </template>
 
 <script>
 import BaseTable from '@/components/BaseTable.vue';
-import CSVParser from '@/CSVParser.js';
+import VectorSummaryStatistics from '@/components/VectorSummaryStatistics.vue';
+// ColumnStatistics
+// import CSVParser from '@/CSVParser.js';
 
 export default {
   components: {
     BaseTable,
+    VectorSummaryStatistics,
+  },
+
+  props: {
+    dataset: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
 
   data() {
     return {
-      headers: [],
-      rows: [],
+      some: [123, 42, 23, 2],
     };
+  },
+
+  computed: {
+    headers() {
+      return this.dataset[0];
+    },
+    rows() {
+      return this.dataset.slice(1, this.dataset.length);
+    },
   },
 
   methods: {
@@ -29,9 +49,7 @@ export default {
       reader.readAsText(file);
 
       reader.onload = () => {
-        const result = CSVParser.toArrays(reader.result);
-        this.headers = result[0];
-        this.rows = result.slice(1, result.length);
+        // const result = CSVParser.toArrays(reader.result)
       };
     },
   },
