@@ -2,7 +2,7 @@
   <div class="navigation-item">
     <router-link
       :to="route"
-      class="navigation-link rounded-1 d-flex justify-content-between"
+      class="navigation-link rounded-1 d-flex justify-content-between px-3"
       :class="{ active: isLinkActive }"
     >
       <div>

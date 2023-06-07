@@ -1,23 +1,32 @@
 <template>
   <div class="container-fluid h-100">
     <div class="row h-100">
-      <the-sidebar class="col-2 border-end" />
-      <router-view class="col-10" />
+      <the-sidebar class="col-2 border-end px-3" />
+      <router-view class="col-10 px-3" />
     </div>
   </div>
 </template>
 
 <script>
-// import TablePage from './pages/TablePage.vue';
 import TheSidebar from './components/TheSidebar.vue';
+
+import { fetchTables } from './api.js';
+import TablesManager from './tablesManager.js';
 
 export default {
   name: 'App',
   components: { TheSidebar },
-  data() {
-    return {
-      dataset: [],
-    };
+  created() {
+    fetchTables().then((tables) => {
+      tables.forEach((table) =>
+        TablesManager.createTable({
+          name: table.name,
+          headers: table.headers,
+          rows: table.rows,
+          id: table.id,
+        })
+      );
+    });
   },
 };
 </script>
