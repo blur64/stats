@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="logo-wrapper border-bottom py-3">
+    <div class="logo-wrapper border-bottom py-4">
       <div class="logo fw-bold fs-4">STATS</div>
     </div>
-    <the-navigation />
+    <the-navigation class="mt-3" />
   </div>
 </template>
 

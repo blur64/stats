@@ -2,11 +2,7 @@
   <div class="container-fluid h-100">
     <div class="row h-100">
       <the-sidebar class="col-2 border-end" />
-      <main class="col-10">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam
-        doloremque voluptas ut, rem amet ipsam in quasi aspernatur totam
-        reprehenderit. Iste, voluptatum. Impedit, molestiae excepturi!
-      </main>
+      <router-view class="col-10" />
     </div>
   </div>
 </template>

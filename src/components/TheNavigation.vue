@@ -1,16 +1,31 @@
 <template>
-  <nav class="navigation fs-5 fw-medium gy-2 row">
-    <div class="navigation-item p-3"><i class="bi-table"></i> Мои таблицы</div>
-    <div class="navigation-item p-3"><i class="bi-brush"></i> Фильтрация</div>
-    <div class="navigation-item p-3">
-      <i class="bi-bar-chart"></i> Визуализация
-    </div>
+  <nav class="fw-medium fs-5 gy-2 row">
+    <navigation-item
+      v-for="(navigationItemData, index) of navigationItemsData"
+      :key="index"
+      :link="navigationItemData.link"
+      :route="navigationItemData.route"
+      :icon="navigationItemData.icon"
+    />
   </nav>
 </template>
 
-<style scoped>
-.navigation-item:hover {
-  cursor: pointer;
-  background-color: var(--bs-gray-100);
-}
-</style>
+<script>
+import NavigationItem from './NavigationItem.vue';
+
+export default {
+  components: {
+    NavigationItem,
+  },
+
+  data() {
+    return {
+      navigationItemsData: [
+        { route: '/', link: 'Мои таблицы', icon: 'table' },
+        { route: '/filter', link: 'Фильтрация', icon: 'brush' },
+        { route: '/visualisation', link: 'Визуализация', icon: 'bar-chart' },
+      ],
+    };
+  },
+};
+</script>
