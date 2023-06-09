@@ -2,13 +2,13 @@ const testTables = [
   {
     name: 'test 1',
     id: 1,
-    headers: ['header1', 'header2', 'header3'],
+    headers: ['header1123', 'header2', 'header3'],
     rows: [
-      ['val1', 'val2', 'val3'],
-      ['val1', 'val2', 'val3'],
-      ['val1', 'val2', 'val3'],
-      ['val1', 'val2', 'val3'],
-      ['val1', 'val2', 'val3'],
+      [123, 'val2', 'val3'],
+      [32, 'val2', 'val3'],
+      [412, 'val2', 'val3'],
+      [2, 'val2', 'val3'],
+      [5, 'val2', 'val3'],
     ],
   },
   {
@@ -29,4 +29,8 @@ function fetchTables() {
   return Promise.resolve().then(() => testTables);
 }
 
-export { fetchTables };
+function postTable() {
+  return;
+}
+
+export { fetchTables, postTable };

@@ -2,6 +2,7 @@
   <table @click="emitClickedColumnIndex" class="base-table">
     <thead v-if="headers.length" class="border-bottom">
       <tr>
+        <th></th>
         <th
           v-for="(header, index) of headers"
           :key="index"
@@ -14,12 +15,15 @@
     </thead>
     <tbody>
       <tr v-for="(row, rowIndex) of rows" :key="rowIndex">
+        <td class="pt-2 fw-bold">
+          {{ rowIndex }}
+        </td>
         <td
           v-for="(data, dataIndex) of row"
           :key="dataIndex"
           :data-row-index="dataIndex"
+          :class="{ 'pt-2': rowIndex === 0 }"
           class="text-end px-2"
-          :class="{ 'fw-bold': dataIndex === 0, 'pt-2': rowIndex === 0 }"
         >
           {{ data }}
         </td>
@@ -29,6 +33,8 @@
 </template>
 
 <script>
+// МБ ЛУЧШЕ СДЕЛАТЬ ДВА ВИДА ТАБЛИЦЫ. ОДНА ОБЫЧНАЯ - ЭТА, ДРУГАЯ - С ГОРИЗОНТАЛЬНЫМИ ХЕДЕРАМИ
+
 export default {
   props: {
     headers: {
@@ -47,16 +53,10 @@ export default {
   },
 
   methods: {
-    emitClickedColumnIndex(e) {
-      let columnIndex = e.target.dataset.rowIndex;
-      this.$emit('columnClicked', columnIndex);
-    },
+    // emitClickedColumnIndex(e) {
+    //   let columnIndex = e.target.dataset.rowIndex;
+    //   this.$emit('columnClicked', columnIndex);
+    // },
   },
 };
 </script>
-
-<style scoped>
-.base-table:hover {
-  cursor: pointer;
-}
-</style>

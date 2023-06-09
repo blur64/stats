@@ -1,9 +1,10 @@
 <template>
   <div class="container-fluid h-100">
-    <div class="row h-100">
+    <div v-if="tablesAreLoaded" class="row h-100">
       <the-sidebar class="col-2 border-end px-3" />
       <router-view class="col-10 px-3" />
     </div>
+    <div v-else>Загрузка...</div>
   </div>
 </template>
 
@@ -11,21 +12,26 @@
 import TheSidebar from './components/TheSidebar.vue';
 
 import { fetchTables } from './api.js';
-import TablesManager from './tablesManager.js';
+import { addTable } from './tables/tablesList.js';
 
 export default {
   name: 'App',
   components: { TheSidebar },
+  data() {
+    return { tablesAreLoaded: false };
+  },
   created() {
     fetchTables().then((tables) => {
       tables.forEach((table) =>
-        TablesManager.createTable({
+        addTable({
           name: table.name,
           headers: table.headers,
           rows: table.rows,
           id: table.id,
         })
       );
+
+      this.tablesAreLoaded = true;
     });
   },
 };

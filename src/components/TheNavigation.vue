@@ -1,5 +1,5 @@
 <template>
-  <nav class="fw-medium fs-5 gy-2 row">
+  <nav class="fw-medium fs-6 gy-2 row">
     <navigation-item
       v-for="(navigationItemData, index) of navigationItemsData"
       :key="index"

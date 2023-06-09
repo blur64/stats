@@ -1,12 +1,19 @@
 <template>
-  <div class="d-flex">
-    <tables-list-item
-      v-for="tableData of tablesData"
-      :key="tableData.id"
-      :tableID="tableData.id"
-      :tableName="tableData.name"
-      @click="(tableID) => $emit('click', tableID)"
-    />
+  <div>
+    <div class="d-flex">
+      <tables-list-item
+        v-for="tableData of tablesData"
+        :key="tableData.id"
+        :tableId="tableData.id"
+        :tableName="tableData.name"
+        @click="(tableId) => $emit('tableSelected', tableId)"
+        class="me-2"
+      />
+    </div>
+    <div class="px-3 mt-3 mb-3">
+      <label for="fileInput" class="form-label">Добавить таблицу</label>
+      <input class="form-control" type="file" id="fileInput" />
+    </div>
   </div>
 </template>
 
@@ -19,7 +26,7 @@ export default {
   },
 
   emits: {
-    click: (id) => typeof id === 'number',
+    tableSelected: (id) => typeof id === 'number',
   },
 
   props: {

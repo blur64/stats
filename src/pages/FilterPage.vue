@@ -1,7 +1,12 @@
 <template>
-  <div>Filters page!</div>
+  <div>
+    <page-header :title="'Фильтры'" />
+  </div>
 </template>
 
 <script>
-export default {};
+import PageHeader from '../components/PageHeader.vue';
+export default {
+  components: { PageHeader },
+};
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div
     class="table-list-item p-3 d-flex flex-column align-items-center rounded-1"
-    @click="$emit('click', tableID)"
+    @click="$emit('click', tableId)"
   >
     <img class="mb-1" src="../assets/imgs/file-img.png" alt="" />
     <span class="text-center">{{ tableName }}</span>
@@ -19,10 +19,14 @@ export default {
       type: String,
       required: true,
     },
-    tableID: {
+    tableId: {
       type: Number,
       required: true,
     },
+    // isActive: {
+    //   type: Boolean,
+    //   required: false,
+    // },
   },
 };
 </script>
@@ -38,7 +42,7 @@ export default {
   color: inherit;
 }
 
-.active {
+.table-list-item-active {
   background-color: var(--bs-gray-200);
   color: inherit;
 }
