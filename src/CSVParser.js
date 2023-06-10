@@ -290,20 +290,3 @@ class CSVParser {
 }
 
 export default new CSVParser(parsingMethods);
-
-// READ FILE METHOD
-
-//     readFile(e) {
-//       const file = e.target.files[0];
-//       const reader = new FileReader();
-
-//       reader.readAsText(file);
-
-//       reader.onload = () => {
-//         const result = CSVParser.toArrays(reader.result);
-//         const headers = result[0];
-//         const rows = result.slice(1);
-//         TablesManager.createTable({ headers, rows, name: 'test', id: 3 });
-//         this.tablesData = TablesManager.getTablesData();
-//       };
-//     },

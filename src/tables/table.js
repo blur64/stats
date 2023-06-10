@@ -13,6 +13,13 @@ class Column {
     this.type = type;
     this.value = value;
   }
+
+  setType(type) {
+    this.type = type;
+    if (type === 'number') {
+      this.value = this.value.map((columnItem) => +columnItem);
+    }
+  }
 }
 
 class Table {

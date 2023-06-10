@@ -73,7 +73,8 @@ export default {
     },
     activeColumnType(newValue, oldValue) {
       if (newValue === oldValue) return;
-      this.activeColumn.type = this.activeColumnType;
+      this.activeColumn.setType(this.activeColumnType);
+      // this.activeColumn.type = this.activeColumnType;
     },
   },
 

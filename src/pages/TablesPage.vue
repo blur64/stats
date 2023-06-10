@@ -4,6 +4,7 @@
     <the-tables-list
       :tablesData="tablesNamesAndIds"
       @tableSelected="changeActiveTable"
+      @newTableAdded="refreshTableList"
     />
     <the-table-info v-if="activeTable" :table="activeTable" />
   </div>
@@ -38,6 +39,9 @@ export default {
   methods: {
     changeActiveTable(tableId) {
       this.activeTable = getTable(tableId);
+    },
+    refreshTableList() {
+      this.tablesNamesAndIds = getTablesNamesAndIds();
     },
   },
 

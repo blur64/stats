@@ -23,6 +23,18 @@ const testTables = [
       ['val1', 'val2', 'val3'],
     ],
   },
+  {
+    name: 'test 3',
+    id: 3,
+    headers: ['string', 'factor', 'number'],
+    rows: [
+      ['val1', 'AB', 123],
+      ['sdf', 'AB', 0],
+      ['serget', 'CO', -53],
+      ['maxin', 'AB', -832],
+      ['asdma', 'GA', 3],
+    ],
+  },
 ];
 
 function fetchTables() {
