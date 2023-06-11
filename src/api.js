@@ -32,7 +32,7 @@ const testTables = [
       ['sdf', 'AB', 0],
       ['serget', 'CO', -53],
       ['maxin', 'AB', -832],
-      ['asdma', 'GA', 3],
+      ['asdma', 'GA', ''],
     ],
   },
 ];

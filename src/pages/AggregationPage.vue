@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-header :title="'Фильтры'" />
+    <page-header :title="'Агрегация'" />
     <base-select
       :label="'Выберите таблицу'"
       :id="'table-select'"
@@ -8,22 +8,22 @@
       v-model="activeTableId"
       class="px-3 mb-4"
     />
-    <the-filter :table="activeTable" class="px-3" />
+    <the-aggregator :table="activeTable" class="px-3" />
   </div>
 </template>
 
 <script>
+import TheAggregator from '@/components/TheAggregator.vue';
 import PageHeader from '../components/PageHeader.vue';
-import BaseSelect from '../components/BaseSelect.vue';
-import TheFilter from '@/components/TheFilter.vue';
+import BaseSelect from '@/components/BaseSelect.vue';
 
 import { getTable, getTablesNamesAndIds } from '../tables/tablesList.js';
 
 export default {
   components: {
     PageHeader,
+    TheAggregator,
     BaseSelect,
-    TheFilter,
   },
 
   data() {

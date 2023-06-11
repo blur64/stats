@@ -1,5 +1,5 @@
 <template>
-  <table @click="emitClickedColumnIndex" class="base-table">
+  <table @click="emitClickedColumnIndex">
     <thead v-if="headers.length" class="border-bottom">
       <tr>
         <th></th>
@@ -14,8 +14,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(row, rowIndex) of rows" :key="rowIndex">
-        <td class="pt-2 fw-bold">
+      <tr v-for="(row, rowIndex) of preparedRows" :key="rowIndex">
+        <td class="pt-1 pe-2 fw-bold text-end">
           {{ rowIndex }}
         </td>
         <td
@@ -23,18 +23,38 @@
           :key="dataIndex"
           :data-row-index="dataIndex"
           :class="{ 'pt-2': rowIndex === 0 }"
-          class="text-end px-2"
+          class="text-end px-2 pt-1"
         >
-          {{ data }}
+          {{ data !== '' ? data : 'NaN' }}
         </td>
       </tr>
+      <template v-if="rows.length > 10">
+        <tr>
+          <td class="pt-1 pe-2 fw-bold text-end">...</td>
+          <td
+            v-for="(_, index) of headers"
+            :key="index"
+            class="text-end px-2 pt-1"
+          >
+            ...
+          </td>
+        </tr>
+        <tr>
+          <td class="pt-1 pe-2 fw-bold">{{ this.rows.length }}</td>
+          <td
+            v-for="(data, index) of rows.at(-1)"
+            :key="index"
+            class="text-end px-2 pt-1"
+          >
+            {{ data !== '' ? data : 'NaN' }}
+          </td>
+        </tr>
+      </template>
     </tbody>
   </table>
 </template>
 
 <script>
-// МБ ЛУЧШЕ СДЕЛАТЬ ДВА ВИДА ТАБЛИЦЫ. ОДНА ОБЫЧНАЯ - ЭТА, ДРУГАЯ - С ГОРИЗОНТАЛЬНЫМИ ХЕДЕРАМИ
-
 export default {
   props: {
     headers: {
@@ -48,15 +68,10 @@ export default {
     },
   },
 
-  emits: {
-    columnClicked: null,
-  },
-
-  methods: {
-    // emitClickedColumnIndex(e) {
-    //   let columnIndex = e.target.dataset.rowIndex;
-    //   this.$emit('columnClicked', columnIndex);
-    // },
+  computed: {
+    preparedRows() {
+      return this.rows.slice(0, 10);
+    },
   },
 };
 </script>

@@ -1,16 +1,16 @@
 <template>
   <div>
-    <base-table :rows="numbersStatistics" />
+    <side-headers-table :records="numbersStatisticsRounded" />
   </div>
 </template>
 
 <script>
-import BaseTable from '../BaseTable.vue';
+import SideHeadersTable from '../SideHeadersTable.vue';
 
 import { jStat } from 'jstat';
 
 export default {
-  components: { BaseTable },
+  components: { SideHeadersTable },
 
   props: {
     column: {
@@ -20,29 +20,49 @@ export default {
   },
 
   computed: {
+    columnFiltered() {
+      return this.column.filter((value) => value !== '' && !isNaN(value));
+    },
+
     numbersStatistics() {
       const numStats = {};
-
-      numStats.count = this.column.length;
-      numStats.mean = jStat.mean(this.column);
-      const mode = jStat.mode(this.column);
+      console.log(this.columnFiltered);
+      numStats.count = this.columnFiltered.length;
+      // numStats.NaN;
+      numStats.mean = jStat.mean(this.columnFiltered);
+      const mode = jStat.mode(this.columnFiltered);
 
       if (!Array.isArray(mode)) {
         numStats.mode = mode;
       } else {
         numStats.mode = '-';
       }
-      numStats.std = jStat.stdev(this.column);
-      numStats.min = jStat.min(this.column);
+      numStats.std = jStat.stdev(this.columnFiltered);
+      numStats.min = jStat.min(this.columnFiltered);
 
-      let [perc25, perc50, perc75] = jStat.quartiles(this.column);
+      let [perc25, perc50, perc75] = jStat.quartiles(this.columnFiltered);
       numStats['25%'] = perc25;
       numStats['50%'] = perc50;
       numStats['75%'] = perc75;
 
-      numStats.max = jStat.max(this.column);
+      numStats.max = jStat.max(this.columnFiltered);
 
       return Object.entries(numStats);
+    },
+
+    numbersStatisticsRounded() {
+      return this.numbersStatistics.map(([_, statistic]) => {
+        const isMoreThanTwoSignsAfterComa = !(
+          parseInt(statistic * 100) ===
+          statistic * 100
+        );
+
+        if (isMoreThanTwoSignsAfterComa && statistic !== '-') {
+          return [_, +(+statistic).toFixed(2)];
+        }
+
+        return [_, statistic];
+      });
     },
   },
 };

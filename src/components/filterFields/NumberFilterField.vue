@@ -1,10 +1,17 @@
 <template>
   <div>
-    {{ title }}
-    от:
-    <input type="number" v-model.lazy="minValue" />
-    до:
-    <input type="number" v-model.lazy="maxValue" />
+    {{ title }}: от
+    <input
+      type="number"
+      v-model.lazy="minValue"
+      class="form-control ms-1 w-10 d-inline"
+    />
+    до
+    <input
+      type="number"
+      v-model.lazy="maxValue"
+      class="form-control ms-1 w-10 d-inline"
+    />
   </div>
 </template>
 
@@ -59,3 +66,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.w-10 {
+  width: 10%;
+}
+</style>

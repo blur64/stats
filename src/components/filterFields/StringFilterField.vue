@@ -1,7 +1,11 @@
 <template>
   <div>
-    {{ title }}
-    <input type="text" v-model.lazy="filterValue" />
+    {{ title }}:
+    <input
+      type="text"
+      v-model.lazy="filterValue"
+      class="form-control ms-1 w-25 d-inline"
+    />
   </div>
 </template>
 

@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import TablesPage from '../pages/TablesPage.vue';
 import FilterPage from '../pages/FilterPage.vue';
 import VisualizationPage from '../pages/VisualizationPage.vue';
+import AggregationPage from '../pages/AggregationPage.vue';
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
     path: '/visualisation',
     name: 'visualisation',
     component: VisualizationPage,
+  },
+  {
+    path: '/aggregation',
+    name: 'aggregation',
+    component: AggregationPage,
   },
   // {
   //   path: '/about',

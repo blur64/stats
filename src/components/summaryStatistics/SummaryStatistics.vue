@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="border-bottom px-3 mt-4 pb-2">
-      Описание столбца <span class="fw-bold">{{ columnName }}</span>
+      <span class="fw-bold">{{ columnName }}</span>
     </header>
     <slot></slot>
     <component :is="currentComponent" :column="column" />

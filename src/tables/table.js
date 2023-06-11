@@ -17,7 +17,9 @@ class Column {
   setType(type) {
     this.type = type;
     if (type === 'number') {
-      this.value = this.value.map((columnItem) => +columnItem);
+      this.value = this.value.map((columnItem) =>
+        columnItem === '' ? '' : +columnItem
+      );
     }
   }
 }

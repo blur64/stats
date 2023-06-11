@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-table :rows="rowsFiltered" :headers="headers" />
+    <base-table :rows="rowsFiltered" :headers="headers" class="mb-5" />
     <filter-field
       v-for="(column, index) of table.columns"
       :key="index"
@@ -8,6 +8,7 @@
       :columnType="column.type"
       :columnValue="column.value"
       @filterValueChanged="changeFilterArg"
+      class="border-bottom py-3"
     />
   </div>
 </template>
@@ -32,20 +33,6 @@ export default {
   data() {
     return {
       columnsData: [],
-      // filterParams: [
-      //   {
-      //     column: 'price',
-      //     method: 'numberTypeFilter',
-      //     args: ['30000', '65000'],
-      //   },
-      //   {
-      //     column: 'brand',
-      //     method: 'factorTypeFilter',
-      //     args: ['HP', 'Asus', 'DEXP'],
-      //   },
-      //   { column: 'name', method: 'textTypeFilter', args: 'Игровой' },
-      //   // ...
-      // ],
       filtersArgs: [],
       columnTypeToFilter: {
         string: 'stringTypeFilter',
@@ -95,8 +82,6 @@ export default {
   methods: {
     // Вызывается при эмите одного из filterField
     changeFilterArg(columnName, filterArg) {
-      console.log(columnName);
-      console.log(filterArg);
       this.filtersArgs[columnName] = filterArg;
     },
 
@@ -119,15 +104,15 @@ export default {
     },
 
     factorTypeFilter({ rows, arg: factorsToLeave, columnIndex }) {
+      if (!factorsToLeave) {
+        return rows;
+      }
       return rows.filter((row) => factorsToLeave.includes(row[columnIndex]));
     },
   },
 
   watch: {
     table() {
-      // Итерация по колонкам таблицы (определяем тип колонки и соответствующую типу функцию. Заполняем filterParams объектами параметров)
-      // Определяем rows (достаём из таблицы колонки)
-      // Определяем headers (достаём из таблицы колонки)
       for (let column of this.table.columns) {
         this.filtersArgs[column.name] = null;
       }
@@ -135,9 +120,6 @@ export default {
   },
 
   created() {
-    // Итерация по колонкам таблицы (определяем тип колонки и соответствующую типу функцию. Заполняем filterParams объектами параметров)
-    // Определяем rows (достаём из таблицы колонки)
-    // Определяем headers (достаём из таблицы колонки)
     for (let column of this.table.columns) {
       this.filtersArgs[column.name] = null;
     }

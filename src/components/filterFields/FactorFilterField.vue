@@ -1,11 +1,26 @@
 <template>
   <div>
-    {{ title }}
-    <select name="" id="" v-model="filterValue">
-      <option v-for="(item, index) of uniqueItems" :key="index" :value="item">
-        {{ item }}
-      </option>
-    </select>
+    {{ title }}:
+    <div class="d-inline-flex align-items-center">
+      <select v-model="filterValue" class="ms-1 form-select">
+        <option v-for="(item, index) of uniqueItems" :key="index" :value="item">
+          {{ item }}
+        </option>
+      </select>
+      <div v-for="counter of filterFieldsCount" :key="counter" class="">
+        <div>или</div>
+        <select class="form-select">
+          <option
+            v-for="(item, index) of uniqueItems"
+            :key="index"
+            :value="item"
+          >
+            {{ item }}
+          </option>
+        </select>
+      </div>
+      <button class="btn" @click="filterFieldsCount += 1">+</button>
+    </div>
   </div>
 </template>
 
@@ -27,7 +42,7 @@ export default {
   },
 
   data() {
-    return { filterValue: '' };
+    return { filterValue: '', filterFieldsCount: 0 };
   },
 
   computed: {
@@ -40,6 +55,7 @@ export default {
         }
       });
 
+      columnUniqueItems.unshift('');
       return columnUniqueItems;
     },
   },
@@ -47,6 +63,9 @@ export default {
   watch: {
     filterValue() {
       this.$emit('filterValueChanged', this.title, this.filterValue);
+    },
+    filterFieldsCount() {
+      console.log(this.filterFieldsCount);
     },
   },
 };

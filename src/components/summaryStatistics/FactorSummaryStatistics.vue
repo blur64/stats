@@ -1,15 +1,19 @@
 <template>
   <div>
-    <base-table :rows="counts" :headers="['', 'count']" />
+    <two-axis-headers-table
+      :rows="counts"
+      :topHeaders="['count']"
+      :sideHeaders="uniqueColumnItems"
+    />
   </div>
 </template>
 
 <script>
-import BaseTable from '../BaseTable.vue';
+import TwoAxisHeadersTable from '../TwoAxisHeadersTable.vue';
 
 export default {
   components: {
-    BaseTable,
+    TwoAxisHeadersTable,
   },
 
   props: {
@@ -20,7 +24,7 @@ export default {
   },
 
   computed: {
-    counts() {
+    uniqueColumnItems() {
       const columnUniqueItems = [];
 
       this.column.forEach((item) => {
@@ -29,13 +33,17 @@ export default {
         }
       });
 
+      return columnUniqueItems;
+    },
+
+    counts() {
       const counts = [];
       const columnItemsJoined = this.column.join();
 
-      columnUniqueItems.forEach((item) => {
+      this.uniqueColumnItems.forEach((item) => {
         const regExp = new RegExp(item, 'g');
         const count = columnItemsJoined.match(regExp).length;
-        counts.push([item, count]);
+        counts.push([count]);
       });
 
       return counts;

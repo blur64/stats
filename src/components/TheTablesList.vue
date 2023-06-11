@@ -56,7 +56,7 @@ export default {
         const result = CSVParser.toArrays(reader.result);
         const headers = result[0];
         const rows = result.slice(1);
-        addTable({ headers, rows, name: 'test', id: 3 });
+        addTable({ headers, rows, name: 'test', id: 4 });
         this.$emit('newTableAdded');
       };
     },

@@ -3,22 +3,23 @@
     <base-table :headers="table.headers" :rows="table.rows" class="ms-3" />
     <base-select
       :id="'column-select'"
-      :label="'Текущая колонка:'"
+      :label="'Показывать описание для'"
       :optionsData="columnsDataForSelect"
+      class="mx-3 py-3 mt-5 border-top"
       v-model="activeColumnName"
     />
     <summary-statistics
       :columnName="activeColumnName"
       :columnType="activeColumn.type"
       :column="activeColumn.value"
-      class="ms-3"
+      class="mx-3 mb-4"
     >
       <base-select
         :optionsData="typesForSelect"
         :id="'type-select'"
         :label="'type'"
         v-model="activeColumnType"
-        class="p-2"
+        class="px-2 py-3"
       />
     </summary-statistics>
   </div>
