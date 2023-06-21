@@ -1,7 +1,15 @@
 <template>
   <div>
-    <div class="logo-wrapper border-bottom px-3">
-      <div class="logo fw-bold fs-4">STATS</div>
+    <div
+      class="logo-wrapper border-bottom px-3 d-flex justify-content-between align-items-center"
+    >
+      <div class="logo fw-bold fs-4">Diplom</div>
+      <div>
+        <button class="btn logout-btn" @click="logout">
+          <i class="align-middle bi bi-box-arrow-in-right fs-4 me-1"></i>
+          <span class="align-middle fw-medium">Выйти</span>
+        </button>
+      </div>
     </div>
     <the-navigation class="mt-3" />
   </div>
@@ -14,6 +22,13 @@ export default {
   components: {
     TheNavigation,
   },
+
+  methods: {
+    logout() {
+      localStorage.removeItem('userId');
+      this.$router.push('/login');
+    },
+  },
 };
 </script>
 
@@ -25,5 +40,17 @@ export default {
 
 .logo {
   letter-spacing: 0.1rem;
+}
+
+.logout-btn {
+  color: var(--bs-gray-600);
+}
+
+.logout-btn:hover {
+  color: inherit;
+}
+
+.logout-btn:focus {
+  border-color: transparent;
 }
 </style>

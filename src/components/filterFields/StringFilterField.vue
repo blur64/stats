@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ title }}:
+    <span class="fw-bold">{{ title }}:</span>
     <input
       type="text"
       v-model.lazy="filterValue"

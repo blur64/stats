@@ -5,7 +5,7 @@
       :id="'column-select'"
       :label="'Показывать описание для'"
       :optionsData="columnsDataForSelect"
-      class="mx-3 py-3 mt-5 border-top"
+      class="mx-3 py-3 mt-5"
       v-model="activeColumnName"
     />
     <summary-statistics
@@ -29,6 +29,7 @@
 import BaseTable from './BaseTable.vue';
 import BaseSelect from './BaseSelect.vue';
 import SummaryStatistics from './summaryStatistics/SummaryStatistics.vue';
+import { sendRequestToChangeColumnTypes } from '../api.js';
 import { columnTypes } from '../tables/tablesList.js';
 
 export default {
@@ -69,13 +70,32 @@ export default {
       this.activeColumnName = this.table.columns[0].name;
       this.activeColumnType = this.table.columns[0].type;
     },
+
     activeColumnName() {
       this.activeColumnType = this.activeColumn.type;
     },
+
     activeColumnType(newValue, oldValue) {
-      if (newValue === oldValue) return;
-      this.activeColumn.setType(this.activeColumnType);
-      // this.activeColumn.type = this.activeColumnType;
+      if (newValue === oldValue) {
+        return;
+      }
+
+      if (this.activeColumnType === this.activeColumn.type) {
+        return;
+      }
+
+      const activeColumnIndex = this.table.columns.findIndex(
+        (column) => column === this.activeColumn
+      );
+      const columnTypes = this.table.getColumnTypes();
+      columnTypes[activeColumnIndex] = this.activeColumnType;
+
+      sendRequestToChangeColumnTypes(this.table.id, columnTypes).then(
+        (serverResponse) => {
+          const columnTypesFromServer = serverResponse.columnTypes;
+          this.activeColumn.setType(columnTypesFromServer[activeColumnIndex]);
+        }
+      );
     },
   },
 

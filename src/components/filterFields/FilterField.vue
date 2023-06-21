@@ -8,6 +8,26 @@
         (title, filterValue) => $emit('filterValueChanged', title, filterValue)
       "
     />
+    <div class="mt-2">
+      <label class="nan-checkbox pe-1" :for="`${columnName}-checkbox`"
+        >Убрать NaN</label
+      >
+      <input
+        class="nan-checkbox"
+        type="checkbox"
+        :id="`${columnName}-checkbox`"
+        @input="$emit('NaNDeletingChecked', columnName, $event.target.checked)"
+      />
+      |
+      <label :for="`${columnName}-text-input`">Заменить NaN на </label>
+      <input
+        class="form-control d-inline ms-2"
+        style="width: 100px"
+        type="text"
+        :id="`${columnName}-text-input`"
+        v-model.lazy="NaNReplaceValue"
+      />
+    </div>
   </div>
 </template>
 
@@ -25,6 +45,8 @@ export default {
 
   emits: {
     filterValueChanged: null,
+    NaNDeletingChecked: null,
+    NaNReplaceValueChanged: null,
   },
 
   props: {
@@ -49,6 +71,7 @@ export default {
         factor: 'FactorFilterField',
         string: 'StringFilterField',
       },
+      NaNReplaceValue: '',
     };
   },
 
@@ -57,5 +80,21 @@ export default {
       return this.componentByType[this.columnType];
     },
   },
+
+  watch: {
+    NaNReplaceValue() {
+      this.$emit(
+        'NaNReplaceValueChanged',
+        this.columnName,
+        this.NaNReplaceValue
+      );
+    },
+  },
 };
 </script>
+
+<style scoped>
+.nan-checkbox:hover {
+  cursor: pointer;
+}
+</style>

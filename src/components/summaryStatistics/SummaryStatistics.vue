@@ -4,11 +4,13 @@
       <span class="fw-bold">{{ columnName }}</span>
     </header>
     <slot></slot>
-    <component :is="currentComponent" :column="column" />
+    <side-headers-table :records="columnCounts" />
+    <component :is="currentComponent" :column="columnEmptyStringFiltered" />
   </div>
 </template>
 
 <script>
+import SideHeadersTable from '../SideHeadersTable.vue';
 import NumberSummaryStatistics from './NumberSummaryStatistics.vue';
 import FactorSummaryStatistics from './FactorSummaryStatistics.vue';
 import StringSummaryStatistics from './StringSummaryStatistics.vue';
@@ -19,6 +21,7 @@ export default {
     NumberSummaryStatistics,
     FactorSummaryStatistics,
     StringSummaryStatistics,
+    SideHeadersTable,
     BaseSelect,
   },
 
@@ -51,6 +54,17 @@ export default {
   computed: {
     currentComponent() {
       return this.componentByType[this.columnType];
+    },
+
+    columnEmptyStringFiltered() {
+      return this.column.filter((val) => val !== '');
+    },
+
+    columnCounts() {
+      const counts = {};
+      counts.count = this.column.filter((val) => val !== '').length;
+      counts.NaNs = this.column.filter((val) => val === '').length;
+      return Object.entries(counts);
     },
   },
 };

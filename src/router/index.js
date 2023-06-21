@@ -4,6 +4,8 @@ import TablesPage from '../pages/TablesPage.vue';
 import FilterPage from '../pages/FilterPage.vue';
 import VisualizationPage from '../pages/VisualizationPage.vue';
 import AggregationPage from '../pages/AggregationPage.vue';
+import LoginPage from '../pages/LoginPage.vue';
+import RegistrationPage from '../pages/RegistrationPage.vue';
 
 const routes = [
   {
@@ -25,6 +27,17 @@ const routes = [
     path: '/aggregation',
     name: 'aggregation',
     component: AggregationPage,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage,
+    props: true,
+  },
+  {
+    path: '/registration',
+    name: 'registration',
+    component: RegistrationPage,
   },
   // {
   //   path: '/about',

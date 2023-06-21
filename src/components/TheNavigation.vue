@@ -23,7 +23,6 @@ export default {
       navigationItemsData: [
         { route: '/', link: 'Мои таблицы', icon: 'table' },
         { route: '/filter', link: 'Фильтрация', icon: 'brush' },
-        { route: '/aggregation', link: 'Агрегация', icon: 'front' },
         { route: '/visualisation', link: 'Визуализация', icon: 'bar-chart' },
       ],
     };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ title }}: от
+    <span class="fw-bold">{{ title }}:</span> от
     <input
       type="number"
       v-model.lazy="minValue"
@@ -33,35 +33,24 @@ export default {
   },
 
   data() {
-    return { minValue: '', maxValue: '' };
+    return {
+      minValue: '',
+      maxValue: '',
+    };
   },
 
   watch: {
     minValue() {
-      if (this.minValue === 0) {
-        this.$emit('filterValueChanged', this.title, [
-          0,
-          this.maxValue ? this.maxValue : Infinity,
-        ]);
-      } else {
-        this.$emit('filterValueChanged', this.title, [
-          this.minValue ? this.minValue : -Infinity,
-          this.maxValue ? this.maxValue : Infinity,
-        ]);
-      }
+      this.$emit('filterValueChanged', this.title, [
+        this.minValue,
+        this.maxValue,
+      ]);
     },
     maxValue() {
-      if (this.maxValue === 0) {
-        this.$emit('filterValueChanged', this.title, [
-          this.minValue ? this.minValue : -Infinity,
-          0,
-        ]);
-      } else {
-        this.$emit('filterValueChanged', this.title, [
-          this.minValue ? this.minValue : -Infinity,
-          this.maxValue ? this.maxValue : Infinity,
-        ]);
-      }
+      this.$emit('filterValueChanged', this.title, [
+        this.minValue,
+        this.maxValue,
+      ]);
     },
   },
 };

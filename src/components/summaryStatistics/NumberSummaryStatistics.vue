@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <side-headers-table :records="numbersStatisticsRounded" />
+  <div class="d-flex align-items-center">
+    <side-headers-table :records="numbersStatisticsRounded" class="col-1" />
+    <div class="col-1"></div>
+    <div id="histogram-wrapper" class="col-5"></div>
+    <div id="box-plot-wrapper" class="col-5"></div>
   </div>
 </template>
 
@@ -8,6 +11,7 @@
 import SideHeadersTable from '../SideHeadersTable.vue';
 
 import { jStat } from 'jstat';
+import Plotly from 'plotly.js-dist';
 
 export default {
   components: { SideHeadersTable },
@@ -20,32 +24,27 @@ export default {
   },
 
   computed: {
-    columnFiltered() {
-      return this.column.filter((value) => value !== '' && !isNaN(value));
-    },
-
     numbersStatistics() {
       const numStats = {};
-      console.log(this.columnFiltered);
-      numStats.count = this.columnFiltered.length;
-      // numStats.NaN;
-      numStats.mean = jStat.mean(this.columnFiltered);
-      const mode = jStat.mode(this.columnFiltered);
+
+      numStats.mean = jStat.mean(this.column);
+      const mode = jStat.mode(this.column);
+      numStats.median = jStat.median(this.column);
 
       if (!Array.isArray(mode)) {
         numStats.mode = mode;
       } else {
         numStats.mode = '-';
       }
-      numStats.std = jStat.stdev(this.columnFiltered);
-      numStats.min = jStat.min(this.columnFiltered);
+      numStats.std = jStat.stdev(this.column);
+      numStats.min = jStat.min(this.column);
 
-      let [perc25, perc50, perc75] = jStat.quartiles(this.columnFiltered);
+      let [perc25, perc50, perc75] = jStat.quartiles(this.column);
       numStats['25%'] = perc25;
       numStats['50%'] = perc50;
       numStats['75%'] = perc75;
 
-      numStats.max = jStat.max(this.columnFiltered);
+      numStats.max = jStat.max(this.column);
 
       return Object.entries(numStats);
     },
@@ -64,6 +63,31 @@ export default {
         return [_, statistic];
       });
     },
+  },
+
+  mounted() {
+    const histData = [
+      {
+        x: this.column,
+        type: 'histogram',
+        marker: {
+          color: 'grey',
+        },
+      },
+    ];
+
+    const boxData = [
+      {
+        x: this.column,
+        type: 'box',
+        marker: {
+          color: 'green',
+        },
+      },
+    ];
+
+    Plotly.newPlot('histogram-wrapper', histData);
+    Plotly.newPlot('box-plot-wrapper', boxData);
   },
 };
 </script>

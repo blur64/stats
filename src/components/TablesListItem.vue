@@ -1,17 +1,18 @@
 <template>
   <div
+    :class="{ 'table-list-item-active': isActive }"
     class="table-list-item p-3 d-flex flex-column align-items-center rounded-1"
     @click="$emit('click', tableId)"
   >
     <img class="mb-1" src="../assets/imgs/file-img.png" alt="" />
-    <span class="text-center">{{ tableName }}</span>
+    <span class="text-break text-center">{{ tableName }}</span>
   </div>
 </template>
 
 <script>
 export default {
   emits: {
-    click: (id) => typeof id === 'number',
+    click: null,
   },
 
   props: {
@@ -20,13 +21,13 @@ export default {
       required: true,
     },
     tableId: {
-      type: Number,
+      type: String,
       required: true,
     },
-    // isActive: {
-    //   type: Boolean,
-    //   required: false,
-    // },
+    isActive: {
+      type: Boolean,
+      required: false,
+    },
   },
 };
 </script>

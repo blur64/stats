@@ -287,6 +287,64 @@ class CSVParser {
       config.callback('', data);
     }
   }
+
+  fromArrays(arrays, options, callback) {
+    // if callback was passed to options swap callback with options
+    if (options !== undefined && typeof options === 'function') {
+      if (callback !== undefined) {
+        return console.error(
+          'You cannot 3 arguments with the 2nd argument being a function'
+        );
+      }
+      callback = options;
+      options = {};
+    }
+
+    options = options !== undefined ? options : {};
+    const config = {};
+    config.callback =
+      callback !== undefined && typeof callback === 'function'
+        ? callback
+        : false;
+    config.separator =
+      'separator' in options ? options.separator : this.defaults.separator;
+    config.delimiter =
+      'delimiter' in options ? options.delimiter : this.defaults.delimiter;
+
+    let output = '';
+
+    for (let i = 0; i < arrays.length; i++) {
+      const line = arrays[i];
+      const lineValues = [];
+      for (let j = 0; j < line.length; j++) {
+        let strValue =
+          line[j] === undefined || line[j] === null ? '' : line[j].toString();
+        if (strValue.indexOf(config.delimiter) > -1) {
+          strValue = strValue.replace(
+            new RegExp(config.delimiter, 'g'),
+            config.delimiter + config.delimiter
+          );
+        }
+
+        let escMatcher = '\n|\r|S|D';
+        escMatcher = escMatcher.replace('S', config.separator);
+        escMatcher = escMatcher.replace('D', config.delimiter);
+
+        if (strValue.search(escMatcher) > -1) {
+          strValue = config.delimiter + strValue + config.delimiter;
+        }
+        lineValues.push(strValue);
+      }
+      output += lineValues.join(config.separator) + '\n';
+    }
+
+    // push the value to a callback if one is defined
+    if (!config.callback) {
+      return output;
+    } else {
+      config.callback('', output);
+    }
+  }
 }
 
 export default new CSVParser(parsingMethods);

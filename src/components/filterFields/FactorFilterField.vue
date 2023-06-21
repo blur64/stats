@@ -1,15 +1,26 @@
 <template>
-  <div>
-    {{ title }}:
-    <div class="d-inline-flex align-items-center">
-      <select v-model="filterValue" class="ms-1 form-select">
+  <div class="d-flex align-items-center">
+    <div class="me-1 fw-bold">{{ title }}:</div>
+    <div class="d-flex align-items-center">
+      <select
+        class="ms-1 form-select"
+        style="width: auto"
+        @input="updateFilterRecord($event.target.value, 0)"
+      >
         <option v-for="(item, index) of uniqueItems" :key="index" :value="item">
           {{ item }}
         </option>
       </select>
-      <div v-for="counter of filterFieldsCount" :key="counter" class="">
-        <div>или</div>
-        <select class="form-select">
+      <div
+        v-for="counter of filterFieldsCount"
+        :key="counter"
+        class="d-flex align-items-center"
+      >
+        <div class="mx-2">или</div>
+        <select
+          class="ms-1 form-select"
+          @input="updateFilterRecord($event.target.value, counter)"
+        >
           <option
             v-for="(item, index) of uniqueItems"
             :key="index"
@@ -42,7 +53,10 @@ export default {
   },
 
   data() {
-    return { filterValue: '', filterFieldsCount: 0 };
+    return {
+      filterRecords: [{ num: 0, value: '' }],
+      filterFieldsCount: 0,
+    };
   },
 
   computed: {
@@ -50,7 +64,7 @@ export default {
       const columnUniqueItems = [];
 
       this.columnValue.forEach((item) => {
-        if (!columnUniqueItems.includes(item)) {
+        if (!columnUniqueItems.includes(item) && item !== '') {
           columnUniqueItems.push(item);
         }
       });
@@ -58,14 +72,41 @@ export default {
       columnUniqueItems.unshift('');
       return columnUniqueItems;
     },
+
+    filterValue() {
+      const filterValue = [];
+
+      this.filterRecords.forEach((record) => {
+        if (!filterValue.includes(record.value) && record.value !== '') {
+          filterValue.push(record.value);
+        }
+      });
+
+      return filterValue;
+    },
+  },
+
+  methods: {
+    updateFilterRecord(value, filterNum) {
+      const filterRecord = this.filterRecords.find(
+        (filter) => filter.num === filterNum
+      );
+
+      filterRecord.value = value;
+    },
   },
 
   watch: {
     filterValue() {
       this.$emit('filterValueChanged', this.title, this.filterValue);
     },
-    filterFieldsCount() {
-      console.log(this.filterFieldsCount);
+    filterFieldsCount(newValue, oldValue) {
+      if (newValue > oldValue) {
+        this.filterRecords.push({
+          num: newValue,
+          value: '',
+        });
+      }
     },
   },
 };

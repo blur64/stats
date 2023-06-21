@@ -1,18 +1,27 @@
 <template>
   <div class="container-fluid h-100">
-    <div v-if="tablesAreLoaded" class="row h-100">
-      <the-sidebar class="col-2 border-end px-3" />
-      <router-view class="col-10 px-3" />
+    <div class="row h-100">
+      <the-sidebar
+        v-if="!($route.path === '/login' || $route.path === '/registration')"
+        class="col-2 border-end px-3"
+      />
+      <router-view
+        class="px-3"
+        :class="{
+          'col-10': !(
+            $route.path === '/login' || $route.path === '/registration'
+          ),
+        }"
+      />
     </div>
-    <div v-else>Загрузка...</div>
   </div>
 </template>
 
 <script>
 import TheSidebar from './components/TheSidebar.vue';
 
-import { fetchTables } from './api.js';
-import { addTable } from './tables/tablesList.js';
+import { fetchUserTables } from './api.js';
+import { addTables, notifyTablesLoadedStateSubs } from './tables/tablesList.js';
 
 export default {
   name: 'App',
@@ -21,18 +30,16 @@ export default {
     return { tablesAreLoaded: false };
   },
   created() {
-    fetchTables().then((tables) => {
-      tables.forEach((table) =>
-        addTable({
-          name: table.name,
-          headers: table.headers,
-          rows: table.rows,
-          id: table.id,
-        })
-      );
+    const userId = localStorage.getItem('userId');
 
-      this.tablesAreLoaded = true;
-    });
+    if (!userId) {
+      this.$router.push('/login');
+    } else {
+      fetchUserTables(userId).then((tables) => {
+        addTables(tables);
+        notifyTablesLoadedStateSubs();
+      });
+    }
   },
 };
 </script>
