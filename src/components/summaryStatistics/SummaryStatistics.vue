@@ -5,7 +5,11 @@
     </header>
     <slot></slot>
     <side-headers-table :records="columnCounts" />
-    <component :is="currentComponent" :column="columnEmptyStringFiltered" />
+    <component
+      :is="currentComponent"
+      :column="columnEmptyStringFiltered"
+      :columnName="columnName"
+    />
   </div>
 </template>
 

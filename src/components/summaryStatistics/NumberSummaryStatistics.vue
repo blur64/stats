@@ -21,6 +21,10 @@ export default {
       type: Array,
       required: true,
     },
+    columnName: {
+      type: String,
+      required: false,
+    },
   },
 
   computed: {
@@ -65,6 +69,38 @@ export default {
     },
   },
 
+  watch: {
+    columnName() {
+      const histData = [
+        {
+          x: this.column,
+          type: 'histogram',
+          marker: {
+            color: 'grey',
+          },
+        },
+      ];
+
+      const boxData = [
+        {
+          x: this.column,
+          type: 'box',
+          marker: {
+            color: 'green',
+          },
+        },
+      ];
+
+      Plotly.newPlot('histogram-wrapper', histData, {
+        yaxis: { title: { text: 'Частота' } },
+        xaxis: { title: { text: this.columnName } },
+      });
+      Plotly.newPlot('box-plot-wrapper', boxData, {
+        xaxis: { title: { text: this.columnName } },
+      });
+    },
+  },
+
   mounted() {
     const histData = [
       {
@@ -86,8 +122,13 @@ export default {
       },
     ];
 
-    Plotly.newPlot('histogram-wrapper', histData);
-    Plotly.newPlot('box-plot-wrapper', boxData);
+    Plotly.newPlot('histogram-wrapper', histData, {
+      yaxis: { title: { text: 'Частота' } },
+      xaxis: { title: { text: this.columnName } },
+    });
+    Plotly.newPlot('box-plot-wrapper', boxData, {
+      xaxis: { title: { text: this.columnName } },
+    });
   },
 };
 </script>

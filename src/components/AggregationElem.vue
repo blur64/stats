@@ -2,26 +2,27 @@
   <div>
     <base-select
       :optionsData="aggregateFuncsForSelect"
-      :label="'Функция агрегирования'"
-      :id="`function-select${Math.random}`"
       class="mb-3"
       v-model="selectedAggregateFunc"
     />
     <base-select
-      v-if="selectedAggregateFunc !== 'count'"
+      :class="{ invisible: selectedAggregateFunc === 'count' }"
       :optionsData="functionParamsForSelect"
-      :label="'Параметр функции'"
-      :id="`column-aggregate-select${Math.random()}`"
-      class="mb-3"
       v-model="aggregateFuncParam"
     />
   </div>
 </template>
 
 <script>
+import BaseSelect from './BaseSelect.vue';
+
 export default {
+  components: {
+    BaseSelect,
+  },
+
   emits: {
-    newAggregationAdded: null,
+    aggregationRuleChanged: null,
   },
 
   props: {
@@ -31,7 +32,7 @@ export default {
     },
 
     aggregationElemIndex: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
@@ -47,17 +48,50 @@ export default {
   computed: {
     functionParamsForSelect() {
       return this.functionParams.map((param) => {
-        return { value: param.name, title: param.name };
+        return { value: param, title: param };
       });
     },
 
     aggregateFuncsForSelect() {
       return this.aggregateFuncs.map((param) => {
-        return { value: param.name, title: param.name };
+        return { value: param, title: param };
       });
     },
   },
 
-  methods: {},
+  watch: {
+    selectedAggregateFunc(newValue, oldValue) {
+      if (
+        (newValue === oldValue || !this.aggregateFuncParam) &&
+        newValue !== 'count'
+      ) {
+        return;
+      }
+
+      this.$emit('aggregationRuleChanged', {
+        func: newValue,
+        param: newValue === 'count' ? '' : this.aggregateFuncParam,
+        index: this.aggregationElemIndex,
+      });
+    },
+
+    aggregateFuncParam(newValue, oldValue) {
+      if (newValue === oldValue || !this.selectedAggregateFunc) {
+        return;
+      }
+
+      this.$emit('aggregationRuleChanged', {
+        func: this.selectedAggregateFunc,
+        param: newValue,
+        index: this.aggregationElemIndex,
+      });
+    },
+  },
 };
 </script>
+
+<style scoped>
+.invisible {
+  visibility: hidden;
+}
+</style>

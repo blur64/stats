@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex">
+    <div v-if="tablesData.length" class="d-flex">
       <tables-list-item
         v-for="tableData of tablesData"
         :key="tableData.id"
@@ -11,6 +11,7 @@
         class="me-2"
       />
     </div>
+    <div v-else class="ms-3 mb-5 pt-5">Пусто :с</div>
     <label for="fileInput" class="form-label d-inline-block ms-3 mt-4"
       >Добавить таблицу:</label
     >

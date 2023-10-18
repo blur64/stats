@@ -8,12 +8,12 @@
       v-model="activeTableId"
       class="px-3 mb-4"
     />
-    <div v-if="activeTableId" id="myDiv" class="w-100"></div>
+    <the-visualisator :dataToVisualise="dataToVisualise" />
     <the-aggregator
       v-if="activeTableId"
       :table="activeTable"
       class="px-3"
-      @graphValuesChanged="changeGraphValues"
+      @aggregationTableChanged="prepareDataToVisualise"
     />
   </div>
 </template>
@@ -21,7 +21,8 @@
 <script>
 import PageHeader from '../components/PageHeader.vue';
 import BaseSelect from '../components/BaseSelect.vue';
-import TheAggregator from '@/components/TheAggregator.vue';
+import TheAggregator from '../components/TheAggregator.vue';
+import TheVisualisator from '../components/TheVisualisator.vue';
 
 import {
   getTable,
@@ -36,12 +37,14 @@ export default {
     PageHeader,
     BaseSelect,
     TheAggregator,
+    TheVisualisator,
   },
 
   data() {
     return {
       tablesNamesAndIds: [],
       activeTableId: null,
+      dataToVisualise: null,
     };
   },
 
@@ -61,6 +64,21 @@ export default {
       this.tablesNamesAndIds = getTablesNamesAndIds().map((tableData) => {
         return { value: tableData.id, title: tableData.name };
       });
+    },
+
+    prepareDataToVisualise(categories, rows, headers, xaxis) {
+      const data = [];
+
+      headers.forEach((_, index) =>
+        data.push({
+          x: categories,
+          y: rows.map((row) => row[index]),
+          yaxis: headers[index],
+          xaxis,
+        })
+      );
+
+      this.dataToVisualise = data;
     },
   },
 

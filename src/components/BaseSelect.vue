@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label :for="id">{{ label }}:</label>
+    <label :for="id">{{ label }} <span v-if="label">:</span></label>
     <select
       :id="id"
       :value="modelValue"
@@ -31,7 +31,7 @@ export default {
     },
     id: {
       type: String,
-      required: true,
+      required: false,
     },
     modelValue: {
       type: [String, Number],
