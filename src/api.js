@@ -29,14 +29,17 @@ function postNewTable(tableData) {
 }
 
 function sendRequestToUserLogin({ name, password }) {
-  return fetch(`${API_URL}/users?name=${name}&password=${password}`)
-    .then((rawResponse) => rawResponse.json())
+  return fetch(`${API_URL}/login?name=${name}&password=${password}`, {
+    method: 'POST',
+    credentials: 'include',
+  })
+    .then(rawResponse => rawResponse.json())
     .then((response) => response);
 }
 
 function sendRequestToUserRegistration({ name, password }) {
   const jsonStringifiedUserData = JSON.stringify({ name, password });
-  return fetch(`${API_URL}/users`, {
+  return fetch(`${API_URL}/registration`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -48,9 +51,8 @@ function sendRequestToUserRegistration({ name, password }) {
 }
 
 function fetchUserTables(userId) {
-  return fetch(`${API_URL}/tables/${userId}`).then((rawResponse) =>
-    rawResponse.json()
-  );
+  return fetch(`${API_URL}/tables/${userId}`, { credentials: 'include' })
+    .then((rawResponse) => rawResponse.json());
 }
 
 function renameTableRequest(tableId, newName) {
@@ -77,6 +79,14 @@ function sendRequestToChangeColumnTypes(tableId, newColumnTypes) {
   }).then((rawResponse) => rawResponse.json());
 }
 
+function sendRequestToUserLogout() {
+  fetch(`${API_URL}/logout`, { method: 'POST', credentials: 'include' });
+}
+
+function isLogined() {
+  return fetch(`${API_URL}/logined`);
+}
+
 export {
   postNewTable,
   sendRequestToUserRegistration,
@@ -86,4 +96,6 @@ export {
   deleteTableRequest,
   renameTableRequest,
   sendRequestToChangeColumnTypes,
+  sendRequestToUserLogout,
+  isLogined,
 };

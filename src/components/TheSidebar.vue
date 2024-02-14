@@ -16,7 +16,9 @@
 </template>
 
 <script>
-import TheNavigation from './TheNavigation.vue';
+import TheNavigation from "./TheNavigation.vue";
+
+import { sendRequestToUserLogout } from "../api.js";
 
 export default {
   components: {
@@ -25,8 +27,9 @@ export default {
 
   methods: {
     logout() {
-      localStorage.removeItem('userId');
-      this.$router.push('/login');
+      sendRequestToUserLogout();
+      localStorage.removeItem("userId");
+      this.$router.push("/login");
     },
   },
 };

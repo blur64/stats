@@ -15,7 +15,7 @@
         'error-message': errorMessage,
       }"
     >
-      {{ isRegistered ? 'Регистрация была успешно пройдена' : errorMessage }}
+      {{ isRegistered ? "Регистрация была успешно пройдена" : errorMessage }}
     </div>
     <label class="mt-3" for="login-input">Имя пользователя</label>
     <input
@@ -44,19 +44,19 @@
 </template>
 
 <script>
-import { sendRequestToUserLogin, fetchUserTables } from '../api.js';
+import { sendRequestToUserLogin, fetchUserTables } from "../api.js";
 import {
   addTables,
   notifyTablesLoadedStateSubs,
-} from '../tables/tablesList.js';
+} from "../tables/tablesList.js";
 
 export default {
   data() {
     return {
       isRegistered: false,
-      password: '',
-      name: '',
-      errorMessage: '',
+      password: "",
+      name: "",
+      errorMessage: "",
     };
   },
 
@@ -75,16 +75,14 @@ export default {
       sendRequestToUserLogin({ name: this.name, password: this.password }).then(
         (result) => {
           if (!result.errorMessage) {
-            localStorage.setItem('userId', result.userId);
+            localStorage.setItem("userId", result.userId);
             fetchUserTables(result.userId).then((tables) => {
               addTables(tables);
               notifyTablesLoadedStateSubs();
             });
-            this.$router.push('/');
-          } else if (result.errorMessage === 'Incorrect user name sent') {
-            this.errorMessage = 'Неверное имя пользователя.';
+            this.$router.push("/");
           } else {
-            this.errorMessage = 'Неверный пароль.';
+            this.errorMessage = "Неверное имя пользователя или пароль.";
           }
         }
       );
