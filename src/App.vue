@@ -30,12 +30,10 @@ export default {
     return { tablesAreLoaded: false };
   },
   created() {
-    const userId = localStorage.getItem("userId");
-
     isLogined().then((r) =>
       r.status === 401
         ? this.$router.push("/login")
-        : fetchUserTables(userId).then((tables) => {
+        : fetchUserTables().then((tables) => {
             addTables(tables);
             notifyTablesLoadedStateSubs();
           })

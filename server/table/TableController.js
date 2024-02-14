@@ -1,9 +1,14 @@
 import TableService from './TableService.js';
+import SessionService from '../session/SessionService.js';
+import UserService from '../user/UserService.js';
 
 class TableController {
   async create(req, res) {
     try {
-      const table = await TableService.create(req.body);
+      const userSession = await SessionService.find(req.cookies.sessionId);
+      const userId = await UserService.getUserId(userSession.userName);
+      const tableData = Object.assign({ user: userId }, req.body);
+      const table = await TableService.create(tableData);
       res.json(table);
     } catch (e) {
       res.status(500).json(e);
@@ -12,8 +17,9 @@ class TableController {
 
   async getUserTables(req, res) {
     try {
-      const tables = await TableService.getUserTables(req.params.userId);
-      res.json(tables);
+      const userSession = await SessionService.find(req.cookies.sessionId);
+      const userId = await UserService.getUserId(userSession.userName);
+      res.json(await TableService.getUserTables(userId));
     } catch (e) {
       res.status(500).json(e);
     }

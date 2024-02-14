@@ -17,6 +17,10 @@ class SessionService {
   async exists(sessionId) {
     return Boolean(await Session.exists({ _id: sessionId }));
   }
+
+  async find(sessionId) {
+    return await Session.findById(sessionId);
+  }
 }
 
 export default new SessionService();

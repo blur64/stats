@@ -75,8 +75,7 @@ export default {
       sendRequestToUserLogin({ name: this.name, password: this.password }).then(
         (result) => {
           if (!result.errorMessage) {
-            localStorage.setItem("userId", result.userId);
-            fetchUserTables(result.userId).then((tables) => {
+            fetchUserTables().then((tables) => {
               addTables(tables);
               notifyTablesLoadedStateSubs();
             });

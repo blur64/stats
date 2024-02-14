@@ -9,7 +9,7 @@ router.post('/logout', UserController.logout);
 router.post('/registration', UserController.create);
 router.get('/logined', UserController.isUserLogined);
 router.post('/tables', TableController.create);
-router.get('/tables/:userId', TableController.getUserTables);
+router.get('/tables', TableController.getUserTables);
 router.put('/tables/:tableId', TableController.changeTable);
 router.delete('/tables/:tableId', TableController.deleteTable);
 router.put('/tables/rename/:tableId', TableController.renameTable);

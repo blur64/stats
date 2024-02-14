@@ -54,13 +54,13 @@
 </template>
 
 <script>
-import BaseTable from './BaseTable.vue';
-import FilterField from './filterFields/FilterField.vue';
-import confirmModal from './ConfirmModal.vue';
+import BaseTable from "./BaseTable.vue";
+import FilterField from "./filterFields/FilterField.vue";
+import confirmModal from "./ConfirmModal.vue";
 
-import { addTable } from '../tables/tablesList.js';
-import { sendRequestToTableUpdate, postNewTable } from '../api.js';
-import { updateTableRows } from '../tables/tablesList.js';
+import { addTable } from "../tables/tablesList.js";
+import { sendRequestToTableUpdate, postNewTable } from "../api.js";
+import { updateTableRows } from "../tables/tablesList.js";
 
 export default {
   components: {
@@ -83,14 +83,14 @@ export default {
   data() {
     return {
       isModalActive: false,
-      nameForNewTable: '',
+      nameForNewTable: "",
       filtersArgs: {},
       NaNDeleteArgs: {},
       NaNReplaceArgs: {},
       columnTypeToFilter: {
-        string: 'stringTypeFilter',
-        number: 'numberTypeFilter',
-        factor: 'factorTypeFilter',
+        string: "stringTypeFilter",
+        number: "numberTypeFilter",
+        factor: "factorTypeFilter",
       },
     };
   },
@@ -115,7 +115,7 @@ export default {
         this.NaNReplaceArgs
       )) {
         columnIndex = this.headers.indexOf(columnName, 0);
-        if (replaceValue !== '') {
+        if (replaceValue !== "") {
           this.replaceNaNs({
             columnIndex,
             replaceValue,
@@ -176,7 +176,7 @@ export default {
         newTableRows: this.rowsFiltered,
       }).then((updatedTableData) => {
         updateTableRows(updatedTableData._id, updatedTableData.rows);
-        this.$emit('tableChangedOrSavedAsNew');
+        this.$emit("tableChangedOrSavedAsNew");
       });
     },
 
@@ -186,12 +186,11 @@ export default {
         columnTypes: this.table.getColumnTypes(),
         headers: this.table.headers,
         name: this.nameForNewTable,
-        user: localStorage.getItem('userId'),
       };
 
       postNewTable(newTableData).then((addedTableDataFromServer) => {
         addTable(addedTableDataFromServer);
-        this.$emit('tableChangedOrSavedAsNew');
+        this.$emit("tableChangedOrSavedAsNew");
       });
     },
 
@@ -221,7 +220,7 @@ export default {
       }
 
       return rows.filter((row) => {
-        if (row[columnIndex] === '') {
+        if (row[columnIndex] === "") {
           return;
         }
 
@@ -247,12 +246,12 @@ export default {
     },
 
     NaNFilter(rows, columnIndex) {
-      return rows.filter((row) => row[columnIndex] !== '');
+      return rows.filter((row) => row[columnIndex] !== "");
     },
 
     replaceNaNs({ rows, columnIndex, replaceValue }) {
       rows.forEach((row) => {
-        if (row[columnIndex] === '') {
+        if (row[columnIndex] === "") {
           row[columnIndex] = replaceValue;
         }
       });
@@ -274,7 +273,7 @@ export default {
       }
 
       for (let column of this.table.columns) {
-        this.NaNReplaceArgs[column.name] = '';
+        this.NaNReplaceArgs[column.name] = "";
       }
     },
   },
@@ -289,7 +288,7 @@ export default {
     }
 
     for (let column of this.table.columns) {
-      this.NaNReplaceArgs[column.name] = '';
+      this.NaNReplaceArgs[column.name] = "";
     }
   },
 };

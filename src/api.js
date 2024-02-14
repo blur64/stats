@@ -25,6 +25,7 @@ function postNewTable(tableData) {
       'Content-Type': 'application/json',
     },
     body: jsonStringifiedTableData,
+    credentials: 'include',
   }).then((rawResponse) => rawResponse.json());
 }
 
@@ -33,8 +34,7 @@ function sendRequestToUserLogin({ name, password }) {
     method: 'POST',
     credentials: 'include',
   })
-    .then(rawResponse => rawResponse.json())
-    .then((response) => response);
+    .then(rawResponse => rawResponse.json());
 }
 
 function sendRequestToUserRegistration({ name, password }) {
@@ -45,13 +45,14 @@ function sendRequestToUserRegistration({ name, password }) {
       'Content-Type': 'application/json',
     },
     body: jsonStringifiedUserData,
+    credentials: 'include',
   })
     .then((rawResponse) => rawResponse.json())
     .then((response) => (response.errorMessage ? false : true));
 }
 
-function fetchUserTables(userId) {
-  return fetch(`${API_URL}/tables/${userId}`, { credentials: 'include' })
+function fetchUserTables() {
+  return fetch(`${API_URL}/tables`, { credentials: 'include' })
     .then((rawResponse) => rawResponse.json());
 }
 
@@ -84,7 +85,7 @@ function sendRequestToUserLogout() {
 }
 
 function isLogined() {
-  return fetch(`${API_URL}/logined`);
+  return fetch(`${API_URL}/logined`, { credentials: 'include' });
 }
 
 export {

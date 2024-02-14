@@ -11,7 +11,8 @@ class UserController {
           httpOnly: true,
           expires: session.expires
         });
-        res.json({ userId: await UserService.getUserId(name) });
+        res.json({});
+        res.end();
       } else {
         res.status(401).json({ errorMessage: 'Incorrect credentials have been sent' });
       }
