@@ -8,11 +8,11 @@ router.post('/login', UserController.login);
 router.post('/logout', UserController.logout);
 router.post('/registration', UserController.create);
 router.get('/logined', UserController.isUserLogined);
-router.post('/tables', TableController.create);
-router.get('/tables', TableController.getUserTables);
-router.put('/tables/:tableId', TableController.changeTable);
-router.delete('/tables/:tableId', TableController.deleteTable);
-router.put('/tables/rename/:tableId', TableController.renameTable);
-router.put('/tables/types/:tableId', TableController.changeColumnsTypes);
+router.post('/tables', TableController.create.bind(TableController));
+router.get('/tables', TableController.getUserTables.bind(TableController));
+router.put('/tables/:tableId', TableController.changeTable.bind(TableController));
+router.delete('/tables/:tableId', TableController.deleteTable.bind(TableController));
+router.put('/tables/rename/:tableId', TableController.renameTable.bind(TableController));
+router.put('/tables/types/:tableId', TableController.changeColumnsTypes.bind(TableController));
 
 export default router;

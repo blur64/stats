@@ -11,6 +11,10 @@ class TableService {
     return tables;
   }
 
+  async getTable(tableId) {
+    return await Table.findById(tableId);
+  }
+
   async changeTableRows(tableId, newRows) {
     const updatedTable = await Table.findByIdAndUpdate(
       tableId,
