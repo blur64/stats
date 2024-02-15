@@ -51,12 +51,12 @@
 // Пользователь добавил таблицу -> отправляем её на сервер ->
 // после её успешного добавления в бд отправляем её обратно на фронт с генерированным id ->
 // добавляем эту таблицу в память на фронте -> эмитим событие "newTableAdded"
-import TablesListItem from './TablesListItem.vue';
+import TablesListItem from "./TablesListItem.vue";
 
-import CSVParser from '../CSVParser.js';
-import { addTable } from '../tables/tablesList.js';
-import { getTypeOfColumn } from '../tables/columnTypeDefiner.js';
-import { postNewTable } from '../api.js';
+import CSVParser from "../CSVParser.js";
+import { addTable } from "../tables/tablesList.js";
+import { getTypeOfColumn } from "../tables/columnTypeDefiner.js";
+import { postNewTable } from "../api.js";
 
 export default {
   components: {
@@ -92,18 +92,17 @@ export default {
         const result = CSVParser.toArrays(reader.result);
 
         const addedTableData = {
-          user: localStorage.getItem('userId'),
           name: file.name,
           headers: result[0],
           rows: result.slice(1),
           columnTypes: result[1].map((rowItem, index) => {
-            if (rowItem === '') {
+            if (rowItem === "") {
               let i = 2;
               let rowItemNotNaN;
 
               do {
                 rowItemNotNaN = result[i][index];
-              } while (rowItemNotNaN === '');
+              } while (rowItemNotNaN === "");
 
               return getTypeOfColumn(rowItemNotNaN);
             }
@@ -114,7 +113,7 @@ export default {
 
         postNewTable(addedTableData).then((addedTableDataFromServer) => {
           addTable(addedTableDataFromServer);
-          this.$emit('newTableAdded');
+          this.$emit("newTableAdded");
         });
       };
     },
