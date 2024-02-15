@@ -1,15 +1,16 @@
 import User from './User.js';
 import SessionService from '../session/SessionService.js';
+import TableService from '../table/TableService.js';
+import bcrypt from 'bcrypt';
 
 class UserService {
   async create(user) {
-    const createdUser = await User.create(user);
-    return createdUser;
+    const hash = await bcrypt.hash(user.password, 4);
+    return await User.create({ name: user.name, password: hash });
   }
 
   async findUserByName(userName) {
-    const foundUser = await User.find({ name: userName });
-    return foundUser;
+    return await User.find({ name: userName });
   }
 
   async getUserId(name) {
@@ -18,7 +19,7 @@ class UserService {
 
   async areCredentialsValid(name, password) {
     const user = await User.findOne({ name });
-    if (!user || user.password !== password) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return false;
     }
     return true;
@@ -36,6 +37,10 @@ class UserService {
 
   async isUserLogined(sessionId) {
     return await SessionService.exists(sessionId);
+  }
+
+  async checkUserOwnsTable(userId, tableId) {
+    return (await TableService.getTable(tableId)).user !== userId;
   }
 }
 
